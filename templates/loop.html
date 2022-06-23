@@ -1,0 +1,60 @@
+<div class="table-responsive">
+    <table class="table table-sm table-borderless mb-0">
+        <thead class="thead-dark">
+        <tr>
+            <th> Id</th>
+            <th>Offer Id</th>
+            <th>Offer Name</th>
+            <th>Offer Desc</th>
+            <th>Price</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for offer in offers %}
+            <tr>
+                <th> {{ loop.index }}</th>
+                <td>{{ offer.id }}</td>
+                <td>{{ offer.product.name }}</td>
+                <td>{{ offer.product.description }}</td>
+                <td>{{ offer.prices[0].value }} EUR</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+<!-- Pagination Links-->
+<div class="text-right">
+    <a href="{{ url_for('offerings', page=prev) }}"
+       class="btn btn-outline-dark
+       {% if page == 1 %}disabled{% endif %}">
+        &laquo;
+    </a>
+    <!-- Loop through the number of pages to display a link for each-->
+    {% for page_num in range(pages +1) %}
+        {% if page_num %}
+            <!-- Check for the active page and set the link to "Active"-->
+            {% if page == page_num %}
+                <a href="{{ url_for('offerings', page=page_num) }}"
+                   class="btn btn-dark">
+                    {{ page_num }}
+                </a>
+            {% else %}
+                <a href="{{ url_for('offerings', page=page_num) }}"
+                   class="btn btn-outline-dark">
+                    {{ page_num }}
+                </a>
+            {% endif %}
+        {% else %}
+            <!-- do something -->
+        {% endif %}
+    {% endfor %}
+    <a href="{{ url_for('offerings', page=page_num) }}" class="btn btn-outline-dark
+       {% if page == pages %}disabled{% endif %}">
+        &raquo;
+    </a>
+</div>
+<p class="text-right mt-3">
+    Showing page {{ page }} of {{ pages }}
+</p>
